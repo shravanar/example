@@ -11,11 +11,10 @@ jobs:
             ./gradlew build
             ./gradlew test
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
         uses: actions/checkout@v3
       - name: Gradle run
-        run: |
-            ./gradlew build
-            ./gradlew bootrun
+        run: echo "Deploying..."
