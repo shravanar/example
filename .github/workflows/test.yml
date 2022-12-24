@@ -10,3 +10,12 @@ jobs:
         run: |
             ./gradlew build
             ./gradlew test
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Gradle run
+        run: |
+            ./gradlew build
+            ./gradlew bootrun
