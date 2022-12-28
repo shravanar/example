@@ -1,5 +1,8 @@
 name: Test Project
-on: [workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -8,6 +11,13 @@ jobs:
     steps:
       - name: Get Code
         uses: actions/checkout@v3
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-dependencies-${{ hashFiles('**/build.gradle') }}
       - name: Gradle build and test
         run: |
             ./gradlew build
@@ -21,6 +31,13 @@ jobs:
     steps:
       - name: Get Code
         uses: actions/checkout@v3
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-dependencies-${{ hashFiles('**/build.gradle') }}
       - name: Gradle build run
         run: |
           ./gradlew build
