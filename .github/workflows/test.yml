@@ -1,8 +1,10 @@
 name: Test Project
-on: push
+on: [workflow_dispatch]
 jobs:
   test:
     runs-on: ubuntu-latest
+    outputs:
+      script-data: ${{ steps.publish.outputs.my-key }}
     steps:
       - name: Get Code
         uses: actions/checkout@v3
@@ -10,11 +12,14 @@ jobs:
         run: |
             ./gradlew build
             ./gradlew test
+      - name: Publish Filename
+        id: publish
+        run: echo "my-key=$(cat README.md)" >> $GITHUB_OUTPUT
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
         uses: actions/checkout@v3
-      - name: Gradle run
-        run: echo "Deploying..."
+      - name: Output Data
+        run: echo "${{ needs.test.outputs.script-data }}"
