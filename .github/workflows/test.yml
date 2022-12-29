@@ -54,3 +54,8 @@ jobs:
           echo "Deployment Completed..!!"
       - name: Output Data
         run: echo "${{ needs.test.outputs.script-data }}"
+      - name: Output Secrets Variables
+        run: |
+          echo ${{ env.DB_NAME }}
+          echo ${{ secrets.DB_USERNAME }}
+          echo ${{ secrets.DB_PASSWORD }}
