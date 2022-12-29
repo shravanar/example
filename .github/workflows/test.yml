@@ -3,8 +3,13 @@ on:
   push:
     branches:
       - main
+env:
+  DB_NAME: gha-demo-name
 jobs:
   test:
+    env:
+      DB_USERNAME: demo-user
+      DB_PASSWORD: demo-pass
     runs-on: ubuntu-latest
     outputs:
       script-data: ${{ steps.publish.outputs.my-key }}
@@ -25,6 +30,11 @@ jobs:
       - name: Publish Filename
         id: publish
         run: echo "my-key=$(cat README.md)" >> $GITHUB_OUTPUT
+      - name: Output Env Variables
+        run: | 
+          echo ${{ env.DB_USERNAME }}
+          echo ${{ env.DB_PASSWORD }}
+          echo ${{ env.DB_NAME }}
   deploy:
     needs: test
     runs-on: ubuntu-latest
