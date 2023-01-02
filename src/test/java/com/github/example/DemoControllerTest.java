@@ -14,6 +14,6 @@ public class DemoControllerTest {
     @Test
     void test_healthCheck () {
         String response = demoController.healthCheck();
-        Assertions.assertEquals(response, "Example App is up and running");
+        Assertions.assertEquals(response, "meh App is up and running");
     }
 }

@@ -24,10 +24,12 @@ jobs:
             ~/.gradle/wrapper
           key: gradle-dependencies-${{ hashFiles('**/build.gradle') }}
       - name: Gradle build and test
+        id: gradle-tests
         run: |
             ./gradlew build
             ./gradlew test
       - name: Publish Filename
+        if: steps.gradle-tests.outcome == 'failure'
         id: publish
         run: echo "my-key=$(cat README.md)" >> $GITHUB_OUTPUT
       - name: Output Env Variables
