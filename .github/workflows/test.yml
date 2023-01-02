@@ -47,6 +47,7 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v3
       - name: Cache Dependencies
+        id: gradle-cache
         uses: actions/cache@v3
         with:
           path: |
@@ -54,6 +55,7 @@ jobs:
             ~/.gradle/wrapper
           key: gradle-dependencies-${{ hashFiles('**/build.gradle') }}
       - name: Gradle build run
+        if: steps.gradle-cache.outputs.cache-hit != 'true'
         run: |
           ./gradlew build
           echo "Deployment Completed..!!"
