@@ -25,6 +25,7 @@ jobs:
             ~/.gradle/wrapper
           key: gradle-dependencies-${{ hashFiles('**/build.gradle') }}
       - name: Gradle build
+        if: steps.gradle-cache.outputs.cache-hit != 'true'
         id: gradle-build
         run: ./gradlew build
       - name: Gradle test
