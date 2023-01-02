@@ -17,17 +17,19 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v3
       - name: Cache Dependencies
+        id: gradle-cache
         uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: gradle-dependencies-${{ hashFiles('**/build.gradle') }}
-      - name: Gradle build and test
+      - name: Gradle build
+        id: gradle-build
+        run: ./gradlew build
+      - name: Gradle test
         id: gradle-tests
-        run: |
-            ./gradlew build
-            ./gradlew test
+        run: ./gradlew test
       - name: Publish Filename
         if: failure() && steps.gradle-tests.outcome == 'failure'
         id: publish
