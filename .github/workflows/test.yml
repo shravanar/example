@@ -29,7 +29,7 @@ jobs:
             ./gradlew build
             ./gradlew test
       - name: Publish Filename
-        if: steps.gradle-tests.outcome == 'failure'
+        if: failure() && steps.gradle-tests.outcome == 'failure'
         id: publish
         run: echo "my-key=$(cat README.md)" >> $GITHUB_OUTPUT
       - name: Output Env Variables
